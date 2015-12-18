@@ -40,9 +40,17 @@ void DoScroll(int dir)
 
         mouse_event(MOUSEEVENTF_WHEEL, 0, 0, amount, 0);
 
-        // calculate the amount to decelerate by.
-        double decel = max(0.005, (s_velocity * (s_velocity / 2)) / 8);
-        s_velocity -= decel;
+        LARGE_INTEGER now;
+        QueryPerformanceCounter(&now);
+
+        double timeDiff = double(now.QuadPart - s_timeLastScroll.QuadPart) / s_timerFrequency;
+
+        double decel = 0;
+        if (timeDiff > 20.0) {
+            // calculate the amount to decelerate by.
+            decel = max(0.005, (s_velocity * (s_velocity / 2)) / 9);
+            s_velocity -= decel;
+        }
 
         if (s_debug > 1)
         {
@@ -101,8 +109,8 @@ static LRESULT CALLBACK MouseCallback(int code, WPARAM wparam, LPARAM lparam)
             double diff = 0;
             if (s_timeLastScroll.QuadPart != 0)
             {
-                diff = double(now.QuadPart - s_timeLastScroll.QuadPart) / s_timerFrequency;
-                diff = s_maxVelocity / diff;
+                double timeDiff = double(now.QuadPart - s_timeLastScroll.QuadPart) / s_timerFrequency;
+                diff = s_maxVelocity / (timeDiff * (timeDiff / 5));
 
                 if (direction != s_lastScrollDirection)
                 {
@@ -115,10 +123,10 @@ static LRESULT CALLBACK MouseCallback(int code, WPARAM wparam, LPARAM lparam)
                     {
                         printf("Old velocity: %f, new: %f\n", s_velocity, newVelocity);
                     }
-                    s_velocity = newVelocity;
+                    s_velocity = max(0.25, newVelocity);
                     if (s_debug)
                     {
-                        printf("diff in time: %f scroll amt: %d, curr velocity: %f\n", diff, delta, s_velocity);
+                        printf("diff in time: %f scroll amt: %d, curr velocity: %f\n", timeDiff, delta, s_velocity);
                     }
                 }
             }
