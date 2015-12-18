@@ -19,12 +19,6 @@ int s_lastScrollDirection;
 
 int s_debug = 0;
 
-typedef struct tagMOUSEHOOKSTRUCTEX
-{
-    MOUSEHOOKSTRUCT mouseHookStruct;
-    DWORD mouseData;
-} MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX, *LPMOUSEHOOKSTRUCTEX;
-
 void DoScroll(int dir)
 {
     s_running = 1;
@@ -84,7 +78,7 @@ static LRESULT CALLBACK MouseCallback(int code, WPARAM wparam, LPARAM lparam)
 
     int discardEvent = FALSE;
     MSLLHOOKSTRUCT* info = reinterpret_cast<MSLLHOOKSTRUCT*>(lparam);
-    switch( wparam )
+    switch(wparam)
     {
     case WM_MOUSEWHEEL:
     {
