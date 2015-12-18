@@ -1,11 +1,13 @@
 # momentum-scroller
-Enables OSX style momentum scrolling on Windows with Apple Trackpads
+Enables pseudo OSX style momentum scrolling on Windows with Apple Trackpads within the realms of what can be done with the existing trackpad scroll events and limited apps that support pixel based scrolling properly (Google Chrome works well).
 
 ### IMPORTANT
 
-You must set the "number of lines to scroll at a time" in the mouse control panel to 1 for this to work correctly.
+Make sure boot camp trackpad driver is installed and scrolling is enabled.
 
-This has been tested on a MacBook Pro only.   This will change the behaviour of any external mouse attached and may be useful with a magic mouse. 
+Before using this, you must set the "number of lines to scroll at a time" in the mouse control panel to 1 for this to work correctly (otherwise it will scroll too fast).
+
+This has been tested on a MacBook Pro with Windows 10 only.   This will change the behaviour of any external mouse attached. This may also work with a magic mouse but that has not been tested. 
 
 ### Running
 
